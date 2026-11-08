@@ -92,6 +92,53 @@
       h1::before,h1::after{display:none}
       .card:hover{transform:none}
     }
+    /* ===== chains & keys ===== */
+    .vault{position:relative;display:flex;flex-direction:column;gap:12px;height:100%}
+    .vault>.card{flex:1;height:auto}
+    .chains{bottom:44px!important}
+    .studio-wrap .band.a{transform:rotate(9deg)}.studio-wrap .band.b{transform:rotate(-9deg)}
+    .studio-wrap .band{left:-3%;width:106%}
+    .tools>li{display:flex;flex-direction:column}
+    .vault.locked>.card{filter:saturate(.35) brightness(.55);pointer-events:none}
+    .chains{position:absolute;inset:-6px;z-index:5;pointer-events:none;overflow:visible}
+    .band{position:absolute;left:-12%;width:124%;top:50%;height:30px;margin-top:-15px;display:flex}
+    .band.a{transform:rotate(28deg)}.band.b{transform:rotate(-28deg)}.band.c{transform:rotate(90deg);width:80%;left:10%}
+    .studio-wrap .band.c{display:none}
+    .half{flex:1;height:100%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='30'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23d9f6ff'/%3E%3Cstop offset='.5' stop-color='%236b7f96'/%3E%3Cstop offset='1' stop-color='%23232c3a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='3' y='6' width='26' height='18' rx='9' fill='none' stroke='url(%23g)' stroke-width='5'/%3E%3Crect x='25' y='12' width='18' height='6' rx='3' fill='url(%23g)'/%3E%3C/svg%3E") repeat-x center/44px 30px;
+      filter:drop-shadow(0 0 4px rgba(0,240,255,.55)) drop-shadow(0 4px 4px rgba(0,0,0,.8));animation:rattle 2.8s ease-in-out infinite}
+    .band.b .half{animation-delay:-1.1s}.band.c .half{animation-delay:-.5s}
+    @keyframes rattle{0%,100%{transform:translateY(0)}50%{transform:translateY(1.5px)}}
+    .lock{position:absolute;left:50%;top:50%;z-index:6;width:74px;height:88px;margin:-44px 0 0 -37px;border:0;padding:0;background:none;cursor:pointer;pointer-events:auto;color:var(--c,var(--cy))}
+    .lock svg{width:100%;height:100%;filter:drop-shadow(0 0 10px currentColor) drop-shadow(0 6px 8px #000);animation:hum 2s ease-in-out infinite}
+    @keyframes hum{50%{filter:drop-shadow(0 0 18px currentColor) drop-shadow(0 6px 8px #000)}}
+    .lock.target svg{transform:scale(1.15)}
+    .lock.jiggle svg{animation:jig .4s}
+    @keyframes jig{25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+    .keybtn{align-self:center;display:inline-flex;align-items:center;gap:.55rem;font:600 .72rem "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--c,var(--cy));
+      background:rgba(0,0,0,.55);border:1px dashed currentColor;padding:.5rem .85rem;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+    .keybtn svg{width:38px;height:16px;filter:drop-shadow(0 0 6px currentColor);animation:float 2.4s ease-in-out infinite}
+    @keyframes float{50%{transform:translateY(-3px) rotate(-6deg)}}
+    .keybtn:hover{background:color-mix(in srgb,currentColor 14%,#000)}
+    .vault:not(.locked) .keybtn{visibility:hidden}
+    .ghostkey{position:fixed;z-index:60;width:64px;height:28px;pointer-events:none;transform:translate(-50%,-50%) rotate(-20deg);filter:drop-shadow(0 0 12px currentColor)}
+    /* unlocking */
+    .vault.unlocking .lock svg{animation:pop .9s forwards}
+    @keyframes pop{30%{transform:scale(1.25) rotate(-8deg)}100%{transform:translateY(160px) rotate(40deg) scale(.6);opacity:0}}
+    .vault.unlocking .lock .shackle{animation:shackle .3s forwards}
+    @keyframes shackle{to{transform:translateY(-10px)}}
+    .vault.unlocking .half:first-child{animation:fallL 1.1s cubic-bezier(.4,0,.8,.6) .25s forwards}
+    .vault.unlocking .half:last-child{animation:fallR 1.1s cubic-bezier(.4,0,.8,.6) .25s forwards}
+    @keyframes fallL{0%{transform:none}15%{transform:translateX(-8px)}100%{transform:translate(-40px,260px) rotate(-35deg);opacity:0}}
+    @keyframes fallR{0%{transform:none}15%{transform:translateX(8px)}100%{transform:translate(40px,260px) rotate(35deg);opacity:0}}
+    .vault.unlocking::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:20px;margin:-10px;border-radius:50%;z-index:7;pointer-events:none;box-shadow:0 0 0 2px var(--cy),0 0 40px 10px var(--mg);animation:burst .7s ease-out forwards}
+    @keyframes burst{to{transform:scale(14);opacity:0}}
+    .vault.unlocking>.card{transition:filter .9s .4s}
+    .vault.free .chains{display:none}
+    .keybar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:-8px 0 22px}
+    .keybar button{font:600 .72rem "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;padding:.6rem 1rem;cursor:pointer;background:rgba(255,43,214,.1);color:var(--mg);border:1px solid var(--mg)}
+    .keybar .reset{background:none;color:var(--muted);border-color:rgba(147,164,186,.4)}
+    .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    @media (prefers-reduced-motion:reduce){.vault.unlocking::after{display:none}}
   </style>
 </head>
 <body>
@@ -119,6 +166,8 @@
 
   <main id="tools">
     <h2 class="sec">ACTIVE_TOOLS</h2>
+    <div class="keybar"><button type="button" id="masterkey">🗝 Unlock all (master key)</button><button type="button" class="reset" id="relock">Reset locks</button></div>
+    <p class="sr" id="lockmsg" role="status" aria-live="polite"></p>
     <ul class="tools">
       <li><a class="card rip" href="https://cloudripper.youneek.dev">
         <div class="media"><span class="badge">CLI</span>
@@ -171,6 +220,67 @@
     function run(){cancelAnimationFrame(raf);if(!rm.matches&&!document.hidden)tick();}
     addEventListener('resize',size);rm.addEventListener('change',run);document.addEventListener('visibilitychange',run);
     size();run();
+  })();
+  </script>
+  <script>
+  (()=>{
+    const KEY='ynk-unlocked',rm=matchMedia('(prefers-reduced-motion: reduce)');
+    let saved;try{saved=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch{saved=new Set()}
+    const store=()=>{try{localStorage.setItem(KEY,JSON.stringify([...saved]))}catch{}};
+    const live=document.getElementById('lockmsg');
+    const lockSVG='<svg viewBox="0 0 74 88" aria-hidden="true"><path class="shackle" d="M18 40V26a19 19 0 0 1 38 0v14" fill="none" stroke="currentColor" stroke-width="8"/><rect x="6" y="38" width="62" height="46" rx="6" fill="#0b1020" stroke="currentColor" stroke-width="3"/><circle cx="37" cy="57" r="7" fill="currentColor"/><path d="M34 60h6l2 14h-10z" fill="currentColor"/><path d="M12 46h50" stroke="currentColor" stroke-opacity=".4"/></svg>';
+    const keySVG='<svg viewBox="0 0 64 28" aria-hidden="true"><circle cx="12" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="4"/><path d="M21 12h40v4h-6v7h-5v-7h-5v5h-5v-5H21z" fill="currentColor"/></svg>';
+    const vaults=[];
+    document.querySelectorAll('.tools>li>.card, .studio-wrap>.card').forEach(card=>{
+      const id=new URL(card.href).hostname, name=card.querySelector('h2').textContent;
+      const v=document.createElement('div');v.className='vault';v.style.setProperty('--c',getComputedStyle(card).getPropertyValue('--c'));
+      card.replaceWith(v);v.appendChild(card);
+      const ch=document.createElement('div');ch.className='chains';
+      ch.innerHTML='<div class="band a"><span class="half"></span><span class="half"></span></div><div class="band b"><span class="half"></span><span class="half"></span></div><div class="band c"><span class="half"></span><span class="half"></span></div>';
+      const lock=document.createElement('button');lock.type='button';lock.className='lock';lock.innerHTML=lockSVG;lock.setAttribute('aria-label',name+' is locked. Use its key to unlock.');
+      ch.appendChild(lock);v.appendChild(ch);
+      const k=document.createElement('button');k.type='button';k.className='keybtn';k.innerHTML=keySVG+'<span>Key: '+name+'</span>';k.setAttribute('aria-label','Unlock '+name+' with its key (drag to the lock, or press)');
+      v.appendChild(k);
+      const o={v,card,lock,k,id,name};vaults.push(o);
+      if(saved.has(id))free(o);else lockUp(o);
+      lock.addEventListener('click',()=>{lock.classList.remove('jiggle');void lock.offsetWidth;lock.classList.add('jiggle');say(name+' is chained. Grab its key below.')});
+      drag(o);
+    });
+    function say(t){live.textContent=t}
+    function lockUp(o){o.v.className='vault locked';o.card.setAttribute('tabindex','-1');o.card.setAttribute('aria-hidden','true')}
+    function free(o){o.v.className='vault free';o.card.removeAttribute('tabindex');o.card.removeAttribute('aria-hidden')}
+    function unlock(o,quiet){
+      if(!o.v.classList.contains('locked'))return;
+      saved.add(o.id);store();
+      const done=()=>{free(o);if(!quiet){o.card.focus({preventScroll:true});say(o.name+' unlocked.')}};
+      if(rm.matches){done();return}
+      o.v.classList.remove('locked');o.v.classList.add('unlocking');setTimeout(done,1400);
+    }
+    function drag(o){
+      let g=null,sx=0,sy=0,moved=false,pid=null;
+      o.k.addEventListener('pointerdown',e=>{pid=e.pointerId;sx=e.clientX;sy=e.clientY;moved=false;o.k.setPointerCapture(pid)});
+      o.k.addEventListener('pointermove',e=>{
+        if(pid!==e.pointerId)return;
+        if(!moved&&Math.hypot(e.clientX-sx,e.clientY-sy)<8)return;
+        if(!moved){moved=true;g=document.createElement('div');g.className='ghostkey';g.style.color=getComputedStyle(o.k).color;g.innerHTML=keySVG;document.body.appendChild(g)}
+        g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';
+        o.lock.classList.toggle('target',hit(o.lock,e));
+      });
+      const end=e=>{
+        if(pid!==e.pointerId)return;pid=null;
+        if(g){g.remove();g=null}
+        o.lock.classList.remove('target');
+        if(!moved){unlock(o);return}
+        if(e.type==='pointerup'&&hit(o.lock,e,30))unlock(o);
+        else{const other=vaults.find(x=>x!==o&&x.v.classList.contains('locked')&&hit(x.lock,e,30));
+          if(other){other.lock.click();say('Wrong key. '+other.name+' needs its own key.')}}
+      };
+      o.k.addEventListener('pointerup',end);o.k.addEventListener('pointercancel',end);
+      o.k.addEventListener('click',e=>{if(e.detail===0)unlock(o)}); // keyboard Enter/Space
+    }
+    function hit(el,e,pad=20){const r=el.getBoundingClientRect();return e.clientX>r.left-pad&&e.clientX<r.right+pad&&e.clientY>r.top-pad&&e.clientY<r.bottom+pad}
+    document.getElementById('masterkey').addEventListener('click',()=>{vaults.forEach((o,i)=>setTimeout(()=>unlock(o,true),rm.matches?0:i*220));say('Master key used. Everything is unlocked.')});
+    document.getElementById('relock').addEventListener('click',()=>{saved.clear();store();vaults.forEach(lockUp);say('All tools are chained again.')});
   })();
   </script>
 </body>
