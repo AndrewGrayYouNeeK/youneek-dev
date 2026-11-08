@@ -1,0 +1,8 @@
+{
+  "name": "youneek-dev-home",
+  "compatibility_date": "2026-11-06",
+  "account_id": "d74b0de637f4d9d9eb3efb9e13142784",
+  "workers_dev": true,
+  "assets": { "directory": "./public" },
+  "routes": [{ "pattern": "youneek.dev", "custom_domain": true }]
+}
